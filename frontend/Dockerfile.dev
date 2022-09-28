@@ -1,0 +1,31 @@
+# Dockerfile.dev is used only in development
+
+FROM node:16-alpine
+# we need a specific version of NOde to avoid bugs
+
+WORKDIR '/app'
+# setup a working directory
+
+COPY package.json .
+# copy pacakge.json to current working directory
+
+RUN npm install
+
+COPY . . 
+# do not need it now because of volumes of docker-compose
+# copies everything from source directory to working directory
+
+
+#RUN chown -R node /app/node_modules
+#RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+
+CMD ["npm", "run", "start"]
+
+# node-modules are duplicate dependencies
+# since we are relying upon docker to initialise and install all our dependencies
+# so we do not need the 'node-modules' folder
+
+# >msg on terminal
+# > $ docker build -f <filename> . 
+# >>Sending build context to Docker daemon
+# 
